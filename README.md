@@ -10,13 +10,13 @@
 - 创建独立环境 `dl`（Python 3.11），与系统环境隔离
 - 收获：理解虚拟环境的意义——不同项目依赖互不污染
 
-### 2026-10-29 · Day 2：安装 PyTorch（GPU 版）
+### 2026-10-29 · Day 2：安装 PyTorch
 
 - `nvidia-smi` 确认硬件：RTX 3070（8GB），驱动支持 CUDA ≤ 13.2
 - 安装 `torch 2.11.0+cu128`，验证 `torch.cuda.is_available() == True`
 - 收获：`+cu128` 后缀说明装的是 GPU 轮子；镜像源没有 GPU 版，必须走官方 `--index-url`
 
-### 2026-10-30 · Day 3：第一个训练 demo + 四个一手观察
+### 2026-10-30 · Day 3：第一个训练 demo和四个观察
 
 - VS Code 配置 Python 解释器，跑通线性回归：`y = 3x + 2 + noise`
 - 完整走通 **前向 → loss → 反向 → 更新** 的最小训练循环
