@@ -25,7 +25,6 @@
   - b 参数爬升极慢 → w、b 梯度**耦合**，收敛速度由损失曲面最平方向决定
   - lr=0.05 → loss 变 NaN → **学习率过大导致梯度爆炸**（数值溢出 inf-inf=NaN）
   - 缩小 x 范围到 [0,1] → w、b 螺旋震荡收敛 → **特征尺度影响收敛路径**
-- 启示：调参不是玄学，每个现象背后都有数学原因
 
 ### 2026-10-31 · Day 4：Git + GitHub 工作流
 
@@ -35,20 +34,3 @@
   - 合并无关联历史 → `--allow-unrelated-histories`
   - 误提交 `.vscode/` 配置 → 加入 `.gitignore` + `git rm -r --cached` 移除跟踪
 - 收获：gitignore 只对未跟踪文件生效；GitHub 网页提交会使远程领先本地，先 pull 再干活
-
-## 本周知识点自检
-
-- [x] 虚拟环境为什么存在、怎么用
-- [x] GPU 版 PyTorch 怎么装、怎么验证
-- [x] 深度学习最小训练循环的四个步骤
-- [x] 噪声地板 / 梯度爆炸 / 特征尺度对收敛的影响
-- [x] Git 基础工作流：init → add → commit → pull → push
-- [ ] 装饰器 / 生成器 / asyncio（进行中）
-
-## 目录结构
-
-```
-dl-roadmap/
-├── day3_demo.py        # 第一个训练 demo：线性回归
-└── python-basics/      # Python 工程化练习（装饰器/生成器/asyncio）
-```
