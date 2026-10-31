@@ -1,21 +1,6 @@
 # dl-roadmap
 
-深度学习学习路线：从零开始的 AI 实习准备（PyTorch / Transformer / LLM 应用）
-
-> 人工智能专业本科大三 | 目标：大模型应用 / AI 工程方向实习
-> 每天记录一条学习日志，攒一手经验，不攒"看过 = 会了"的错觉。
-
-## 学习路线总览
-
-| 阶段 | 时间 | 内容 | 状态 |
-|------|------|------|------|
-| W1 | 10/28 – 11/08 | 环境搭建 + PyTorch 入门 + Python 工程化 | 🔄 进行中 |
-| W2 | 11/09 – 11/15 | 《动手学深度学习》MLP + 优化器 + LeetCode 起步 | ⬜ |
-| W3 | 11/16 – 11/22 | CNN 与图像分类实战（CIFAR-10） | ⬜ |
-| W4 | 11/23 – 11/29 | RNN / Seq2Seq / 注意力机制 | ⬜ |
-| W5 | 11/30 – 12/06 | 精读并手写 Transformer | ⬜ |
-| W6 | 12/07 – 12/13 | PyTorch 工程化 + 文本分类项目 | ⬜ |
-| W7+ | 12/14 – | Hugging Face / RAG / Agent / 微调实战 | ⬜ |
+深度学习学习路线：PyTorch / Transformer / LLM 应用
 
 ## 学习日志
 
@@ -25,13 +10,13 @@
 - 创建独立环境 `dl`（Python 3.11），与系统环境隔离
 - 收获：理解虚拟环境的意义——不同项目依赖互不污染
 
-### 2026-10-29 · Day 2：安装 PyTorch（GPU 版）
+### 2026-10-29 · Day 2：安装 PyTorch
 
-- `nvidia-smi` 确认硬件：RTX 3070（8GB），驱动支持 CUDA ≤ 13.2
+- `nvidia-smi` 确认硬件：RTX 3070，驱动支持 CUDA ≤ 13.2
 - 安装 `torch 2.11.0+cu128`，验证 `torch.cuda.is_available() == True`
 - 收获：`+cu128` 后缀说明装的是 GPU 轮子；镜像源没有 GPU 版，必须走官方 `--index-url`
 
-### 2026-10-30 · Day 3：第一个训练 demo + 四个一手观察
+### 2026-10-30 · Day 3：第一个训练 demo
 
 - VS Code 配置 Python 解释器，跑通线性回归：`y = 3x + 2 + noise`
 - 完整走通 **前向 → loss → 反向 → 更新** 的最小训练循环
@@ -40,7 +25,6 @@
   - b 参数爬升极慢 → w、b 梯度**耦合**，收敛速度由损失曲面最平方向决定
   - lr=0.05 → loss 变 NaN → **学习率过大导致梯度爆炸**（数值溢出 inf-inf=NaN）
   - 缩小 x 范围到 [0,1] → w、b 螺旋震荡收敛 → **特征尺度影响收敛路径**
-- 启示：调参不是玄学，每个现象背后都有数学原因
 
 ### 2026-10-31 · Day 4：Git + GitHub 工作流
 
@@ -50,20 +34,3 @@
   - 合并无关联历史 → `--allow-unrelated-histories`
   - 误提交 `.vscode/` 配置 → 加入 `.gitignore` + `git rm -r --cached` 移除跟踪
 - 收获：gitignore 只对未跟踪文件生效；GitHub 网页提交会使远程领先本地，先 pull 再干活
-
-## 本周知识点自检
-
-- [x] 虚拟环境为什么存在、怎么用
-- [x] GPU 版 PyTorch 怎么装、怎么验证
-- [x] 深度学习最小训练循环的四个步骤
-- [x] 噪声地板 / 梯度爆炸 / 特征尺度对收敛的影响
-- [x] Git 基础工作流：init → add → commit → pull → push
-- [ ] 装饰器 / 生成器 / asyncio（进行中）
-
-## 目录结构
-
-```
-dl-roadmap/
-├── day3_demo.py        # 第一个训练 demo：线性回归
-└── python-basics/      # Python 工程化练习（装饰器/生成器/asyncio）
-```
