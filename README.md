@@ -16,7 +16,7 @@
 - 安装 `torch 2.11.0+cu128`，验证 `torch.cuda.is_available() == True`
 - 收获：`+cu128` 后缀说明装的是 GPU 轮子；镜像源没有 GPU 版，必须走官方 `--index-url`
 
-### 2026-10-30 · Day 3：第一个训练 demo和四个观察
+### 2026-10-30 · Day 3：第一个训练 demo
 
 - VS Code 配置 Python 解释器，跑通线性回归：`y = 3x + 2 + noise`
 - 完整走通 **前向 → loss → 反向 → 更新** 的最小训练循环
