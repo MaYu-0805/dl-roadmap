@@ -12,7 +12,6 @@
 
 ### 2026-10-29 · Day 2：安装 PyTorch
 
-- `nvidia-smi` 确认硬件：RTX 3070，驱动支持 CUDA ≤ 13.2
 - 安装 `torch 2.11.0+cu128`，验证 `torch.cuda.is_available() == True`
 - 收获：`+cu128` 后缀说明装的是 GPU 轮子；镜像源没有 GPU 版，必须走官方 `--index-url`
 
@@ -35,13 +34,13 @@
   - 误提交 `.vscode/` 配置 → 加入 `.gitignore` + `git rm -r --cached` 移除跟踪
 - 收获：gitignore 只对未跟踪文件生效；GitHub 网页提交会使远程领先本地，先 pull 再干活
 
-### 2026-11-01 · Day 5：Python 工程化自测 ①
+### 2026-11-01 · Day 5：Python 工程化自测
 
 - 手写计时装饰器 `timer_decorator.py`：`@functools.wraps` 保留函数元信息，`*args, **kwargs` 透传任意参数
 - 手写大文件逐行读取生成器 `file_generator.py`：10 万行文件用 `yield` 惰性读取
 - 对比实验：生成器对象约 200 字节，等量列表约 800MB——惰性求值的内存优势
-- 自测结论（已写入代码注释）：
+- 自测结论：
   - 不加 `@functools.wraps` 功能不受影响，但 `__name__` 变成 `wrapper`，调试/日志/框架集成会踩坑
   - `return` 结束函数一次性返回；`yield` 暂停函数分批产出，且冻结局部变量状态
   - 列表即时全量存储，生成器惰性按需生成，一次只算一个
-- 收获：装饰器本质是 `train = timer(train)`；生成器是"懒执行 + 状态保留"
+- 收获：装饰器本质是 `train = timer(train)`；生成器是懒执行和状态保留
