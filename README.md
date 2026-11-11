@@ -73,3 +73,11 @@
   - d2l 新版没有 `evaluate_accuracy` → 手写 accuracy 函数（argmax 取预测类别，统计正确数）
 - 观察到 epoch 5 准确率微降（0.819→0.813）：过拟合的前兆，Week 后续用权重衰减/dropout 处理
 - 收获：从零实现走通了"参数是 nn.Parameter 的张量、前向是矩阵乘法、训练是三行循环"的全过程——框架只是把这些封装了起来
+
+### 2026-11-11 · W2 Day 3：简洁实现
+
+- 用 `nn.Sequential` 重写 MLP（Flatten + Linear + ReLU + Linear），SGD lr=0.1 跑 10 epoch，测试准确率 **0.849**（从零版 0.813 / 5 epoch）
+- 对比验证：从零版与简洁版结果几乎一致 → 框架只是封装，没有魔法
+- 观察到 0.842→0.829→0.845 的锯齿波动：mini-batch 随机性 + 过拟合信号，为 Day 4 正则化埋下伏笔
+- 三个必懂点：`nn.Linear` 封装了参数创建与默认初始化；`CrossEntropyLoss` 内置 softmax 故网络末层不加；`net.parameters()` 把全部参数交给优化器统一更新
+- 收获：MLP 在 Fashion-MNIST 上的天花板约 0.88~0.89，纯加 epoch 收益递减——想再涨要靠更好的结构（CNN）而不是更久的训练
