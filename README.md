@@ -59,7 +59,9 @@
 
 - 手写 `activations.py`，绘制 ReLU / sigmoid / tanh 的函数曲线与导数曲线
 - 去掉激活函数 → 多层线性变换可合并为一层仿射变换，深度失效
-- ReLU 正区导数恒为 1，梯度无衰减穿透；sigmoid 导数最大仅 0.25，10 层叠加梯度衰减百万倍
+- ReLU 正区导数恒为 1，梯度无衰减穿透；sigmoid 导数最大仅 0.25，10 层叠加梯度衰减百万倍  
+  |  |  |  |  
+  | --- | --- | --- |
 - sigmoid 在 |x|>6 时导数 < 0.002 → 梯度消失；对称知识点：ReLU 负区恒 0 → 死亡 ReLU
 - LeetCode 哈希专题起步：「两数之和」（哈希一遍遍历 O(n)，边走边查互补数）+「字母异位词分组」
 - 收获：三种激活函数各有各的"消失方式"——sigmoid/tanh 败在饱和区，ReLU 败在负区
@@ -77,7 +79,6 @@
 ### 2026-11-11 · W2 Day 3：简洁实现
 
 - 用 `nn.Sequential` 重写 MLP（Flatten + Linear + ReLU + Linear），SGD lr=0.1 跑 10 epoch，测试准确率 **0.849**（从零版 0.813 / 5 epoch）
-- 对比验证：从零版与简洁版结果几乎一致 → 框架只是封装，没有魔法
-- 观察到 0.842→0.829→0.845 的锯齿波动：mini-batch 随机性 + 过拟合信号，为 Day 4 正则化埋下伏笔
-- 三个必懂点：`nn.Linear` 封装了参数创建与默认初始化；`CrossEntropyLoss` 内置 softmax 故网络末层不加；`net.parameters()` 把全部参数交给优化器统一更新
+- 观察到 0.842→0.829→0.845 的锯齿波动
+- `nn.Linear` 封装了参数创建与默认初始化；`CrossEntropyLoss` 内置 softmax 故网络末层不加；`net.parameters()` 把全部参数交给优化器统一更新
 - 收获：MLP 在 Fashion-MNIST 上的天花板约 0.88~0.89，纯加 epoch 收益递减——想再涨要靠更好的结构（CNN）而不是更久的训练
