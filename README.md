@@ -59,9 +59,9 @@
 
 - 手写 `activations.py`，绘制 ReLU / sigmoid / tanh 的函数曲线与导数曲线
 - 去掉激活函数 → 多层线性变换可合并为一层仿射变换，深度失效
-- ReLU 正区导数恒为 1，梯度无衰减穿透；sigmoid 导数最大仅 0.25，10 层叠加梯度衰减百万倍  
-  |  |  |  |  
-  | --- | --- | --- |
+- ReLU 正区导数恒为 1，梯度无衰减穿透；sigmoid 导数最大仅 0.25，10 层叠加梯度衰减百万倍
+  |   |   |   |
+  | - | - | - |
 - sigmoid 在 |x|>6 时导数 < 0.002 → 梯度消失；对称知识点：ReLU 负区恒 0 → 死亡 ReLU
 - LeetCode 哈希专题起步：「两数之和」（哈希一遍遍历 O(n)，边走边查互补数）+「字母异位词分组」
 - 收获：三种激活函数各有各的"消失方式"——sigmoid/tanh 败在饱和区，ReLU 败在负区
@@ -83,10 +83,10 @@
 - `nn.Linear` 封装了参数创建与默认初始化；`CrossEntropyLoss` 内置 softmax 故网络末层不加；`net.parameters()` 把全部参数交给优化器统一更新
 - 收获：MLP 在 Fashion-MNIST 上的天花板约 0.88~0.89，纯加 epoch 收益递减——想再涨要靠更好的结构（CNN）而不是更久的训练
 
-### 2026-11-16 · W2 Day 4（进行中）+ W3 Day 1：过拟合实验 + 卷积入门
+### 2026-11-16 · W2 Day 4：过拟合实验 + 卷积入门
 
-- W2 Day 4 实验①：隐藏层加大到 512 + 训练数据砍到 6000 条，10 epoch 后 train 0.809 / test 0.789——test 比全量数据的 0.849 掉了 6%，train 持续上升而 test 在 epoch 5 后停滞，分叉前奏已现；权重衰减与 dropout 对照实验待补
+- 隐藏层加大到 512 + 训练数据砍到 6000 条，10 epoch 后 train 0.809 / test 0.789——test 比全量数据的 0.849 掉了 6%，train 持续上升而 test 在 epoch 5 后停滞，分叉前奏已现；权重衰减与 dropout 对照实验待补
 - 过拟合三问写进 notes.md：过拟合 = 训练好、新数据差（欠拟合则两者都差）；L2 惩罚迫使权重变小、函数更平滑；dropout 训练丢神经元等效训练子网络，推理要确定性输出故不丢
-- W3 Day 1 提前开课：`conv_basics.py` 手写双重循环卷积与 `nn.functional.conv2d` 逐元素对比，`allclose=True` 验证通过——卷积就是"滑动窗口内乘加"
+- `conv_basics.py` 手写双重循环卷积与 `nn.functional.conv2d` 逐元素对比，`allclose=True` 验证通过——卷积就是"滑动窗口内乘加"
 - LeetCode 累计第 3 题「赎金信」：`Counter(ransomNote) - Counter(magazine)` 为空即满足，先用长度剪枝
-- 收获：数据量从 60000 砍到 6000，test acc 直降 6%——泛化能力是"买"不来的，正则化和更多数据才是解药
+- 收获：数据量从 60000 砍到 6000，test acc 直降 6%——泛化能力是买不来的，正则化和更多数据才是解药
