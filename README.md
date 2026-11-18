@@ -90,3 +90,13 @@
 - `conv_basics.py` 手写双重循环卷积与 `nn.functional.conv2d` 逐元素对比，`allclose=True` 验证通过——卷积就是"滑动窗口内乘加"
 - LeetCode 累计第 3 题「赎金信」：`Counter(ransomNote) - Counter(magazine)` 为空即满足，先用长度剪枝
 - 收获：数据量从 60000 砍到 6000，test acc 直降 6%——泛化能力是买不来的，正则化和更多数据才是解药
+
+### 2026-11-18 · W2 Day 5：优化器进化史
+
+- `optimizers_exp.py`：同一个 MLP（784→256→10）分别用 SGD(lr=0.1)、动量法(lr=0.1, momentum=0.9)、Adam(lr=0.001) 训练 10 epoch，记录逐 batch loss 并画曲线对比
+- 曲线观察：三者起点都是 2.3（=ln10，瞎猜水平）；动量法下降最快且曲线最平滑，Adam 紧随其后，SGD 全程噪声最大、末期 loss 略高（最终 ≈0.3）
+- 认知三连写进 notes.md：Adam 前期掉 loss 最快（自适应学习率起步猛）；动量=惯性，冲过 loss 曲面小沟壑；Adam 的 lr 比 SGD 小两个数量级，因为按梯度二阶矩自适应缩放步长
+- 实现细节：记录逐 batch loss（而非逐 epoch），曲线细节更丰富；每组实验重新 `make_net()` 保证初始化公平
+- 「赎金信」归档到 `leetcode/hash/`（与另两题同专题）
+- 待补：Day 4 的权重衰减 / dropout 对照实验（实验①已跑，②③欠账中）
+- 收获：优化器没有绝对优劣——Adam 是"省心的默认选项"，但理解 SGD/动量才能讲清 Adam 为什么好用：它只是把"调 lr"这件事自动化了
