@@ -122,3 +122,14 @@
 - BatchNorm 四点总结：输入分布稳定（后层不必追着适应）、缓解梯度消失（数据离开饱和区）、允许更大学习率、batch 统计的微小噪声带轻微正则效果
 - 池化：规则固定的下采样，无可学习参数；最大池化 = 保留窗口内最强响应 + 缩小尺寸
 - 收获：卷积的形状设计是"约定大于计算"——in_channels 必须对齐输入、out_channels 由你想要的特征图数量决定，记牢这两条，搭任何 CNN 都不会再猜形状
+
+### 2026-11-25 · W3 Day 2：CIFAR-10 数据管线 + 首个 CNN + 首次 GPU 训练
+
+- `cifar10_data.py`：torchvision 加载 CIFAR-10，逐通道 Normalize（RGB 均值/标准差），batch 形状验证 (128, 3, 32, 32) ✅
+- `cifar_cnn.py`：三层卷积块（32→64→128 通道，各配 BatchNorm+ReLU+MaxPool）+ 全连接分类头（2048→256→10，Dropout 0.5）；搭网络前先手画尺寸流，Flatten 后 128×4×4=2048 对上分类头输入
+- **首次 GPU 训练**：`net.to(device)` + 每个 batch `X.to(device)` 成对搬运，15 epoch 全程 RTX 3070，约 1 分钟/epoch
+- 训练曲线：epoch 1 即 0.602（BatchNorm+Adam 起步猛），epoch 9 后进入平台期，最终 **test acc 0.796**——未加任何正则化调优就打穿 W3 的 >70% 验收线
+- 两个真实工程坑与修复：
+  - DataLoader 被包进 `if __name__ == "__main__"` 导致 `ImportError` → 顶层创建（num_workers=0 无子进程，安全），main 保护只管训练入口
+  - `root="../data"` 按运行时工作目录解析，数据被下到错误位置且重复下载 → 路径锚定 `os.path.dirname(os.path.abspath(__file__))`，与运行目录解耦
+- 收获：平台期（epoch 9 后每 epoch 只挪 0.1%）说明当前架构容量见顶——正好是数据增强和 lr 调度的入场信号；另外"搭网络先画尺寸流 + 干跑验证形状"这个习惯救了我至少一次维度报错
