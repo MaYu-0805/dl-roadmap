@@ -125,7 +125,7 @@
 
 ### 2026-11-25 · W3 Day 2：CIFAR-10 数据管线 + 首个 CNN + 首次 GPU 训练
 
-- `cifar10_data.py`：torchvision 加载 CIFAR-10，逐通道 Normalize（RGB 均值/标准差），batch 形状验证 (128, 3, 32, 32) 
+- `cifar10_data.py`：torchvision 加载 CIFAR-10，逐通道 Normalize（RGB 均值/标准差），batch 形状验证 (128, 3, 32, 32)
 - `cifar_cnn.py`：三层卷积块（32→64→128 通道，各配 BatchNorm+ReLU+MaxPool）+ 全连接分类头（2048→256→10，Dropout 0.5）；搭网络前先手画尺寸流，Flatten 后 128×4×4=2048 对上分类头输入
 - **首次 GPU 训练**：`net.to(device)` + 每个 batch `X.to(device)` 成对搬运，15 epoch 全程 RTX 3070，约 1 分钟/epoch
 - 训练曲线：epoch 1 即 0.602（BatchNorm+Adam 起步猛），epoch 9 后进入平台期，最终 **test acc 0.796**——未加任何正则化调优就打穿 W3 的 >70% 验收线
@@ -141,4 +141,4 @@
 - epoch 打印加 train acc 双指标，train/test 差距 = 过拟合程度的直接读数
 - 训练曲线：epoch 1 起步比 baseline 慢（0.554，数据变"难"了是正常现象），epoch 25 最终 **test 0.816 / train 0.828**（baseline 0.796，+2%）
 - 关键诊断：train/test 差距只有 **1.2%**——增强+Dropout+BatchNorm 把过拟合彻底治好，瓶颈从"过拟合"翻转为"欠拟合"（容量不足）。下一步对策：加宽卷积通道（32/64/128 → 64/128/256）
-- 收获：调参是"诊断 → 对策 → 再诊断"的循环，不是玄学试错——今天亲眼见证了瓶颈翻转：治好过拟合之后，欠拟合接棒成为新的天花板；这套叙事就是面试讲调优经历的完整闭环
+- 收获：调参是"诊断 → 对策 → 再诊断"的循环，见证了瓶颈翻转：治好过拟合之后，欠拟合接棒成为新的天花板
