@@ -34,23 +34,31 @@ def accuracy(net, data_iter, device):
             total += y.numel()
     return correct / total
 
+
 if __name__ == "__main__":
     from cifar10_data import train_iter, test_iter
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"训练设备: {device}")
 
-    net = make_cnn().to(device)         
+    net = make_cnn().to(device)
     loss_fn = nn.CrossEntropyLoss()
     updater = torch.optim.Adam(net.parameters(), lr=1e-3)
 
-    for epoch in range(15):
+    # cosine 衰减：lr 从 1e-3 平滑滑向 0，前中期大步探索，后期小步精修
+    num_epochs = 25
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(updater, T_max=num_epochs)
+
+    for epoch in range(num_epochs):
         net.train()
         for X, y in train_iter:
-            X, y = X.to(device), y.to(device)  
+            X, y = X.to(device), y.to(device)
             l = loss_fn(net(X), y)
             updater.zero_grad()
             l.backward()
             updater.step()
-        acc = accuracy(net, test_iter, device)
-        print(f"epoch {epoch+1}: test acc {acc:.3f}")
+        # 打印 train/test 两个 acc：差距大小 = 过拟合程度的直接读数
+        train_acc = accuracy(net, train_iter, device)
+        test_acc = accuracy(net, test_iter, device)
+        print(f"epoch {epoch+1}: train {train_acc:.3f} test {test_acc:.3f}")
+        scheduler.step()      # 每个 epoch 结束调用，漏了等于没加
